@@ -50,7 +50,7 @@ def uncast_value(value, schema):
         elif isinstance(value, (datetime.datetime, datetime.date)):
             # this is a very common case where people use string type but value is actually a date/time
             # usually we don't want to have this kind of behavior - but for this case it's what the people want
-            return value.isoformat()
+            return value.isoformat() + "Z"
         else:
             return json.dumps(value) if value is not None else u""
     elif schema["type"] in ("date", "datetime") and isinstance(value, (datetime.datetime, datetime.date)):
@@ -60,7 +60,7 @@ def uncast_value(value, schema):
             else:
                 raise Exception("I don't know how to parse {} format {}".format(schema["type"], schema["format"]))
         else:
-            return value.isoformat()
+            return value.isoformat() + "Z"
     elif schema["type"] == "array" and isinstance(value, (list, tuple)):
         return json.dumps(value)
     elif value is None:
@@ -70,4 +70,5 @@ def uncast_value(value, schema):
 
 
 def cast_value(value, schema):
+
     return jsontableschema.Field(schema).cast_value(value)

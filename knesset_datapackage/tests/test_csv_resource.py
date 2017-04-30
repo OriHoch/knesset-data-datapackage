@@ -20,7 +20,7 @@ class CsvResourceTestCase(BaseDatapackageTestCase):
 
     def assert_dummy_csv_resource_path_contains_expected_content(self):
         with open(os.path.join(self.data_root, 'test.csv'), 'r') as f:
-            self.assertListEqual(f.readlines(), ['date,integer,string\r\n', '2015-05-02T00:00:00,5,hello world!\r\n', '2013-06-09T00:00:00,3,goodbye\r\n'])
+            self.assertListEqual(f.readlines(), ['date,integer,string\r\n', '2015-05-02T00:00:00Z,5,hello world!\r\n', '2013-06-09T00:00:00Z,3,goodbye\r\n'])
 
     def test_fetch(self):
         fetch_result = self.given_dummy_csv_resource_is_fetched()

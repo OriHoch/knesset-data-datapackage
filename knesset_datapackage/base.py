@@ -7,7 +7,7 @@ import unicodecsv
 from collections import OrderedDict
 import iso8601
 import zipfile
-from .utils import uncast_value
+from .utils import uncast_value, cast_value
 
 
 class BaseResource(Resource):
@@ -138,13 +138,14 @@ class CsvResource(BaseTabularResource):
             raise
 
     def _get_field_original_value(self, csv_val, schema):
-        val = csv_val.decode('utf8')
-        if schema["type"] == "datetime":
-            return iso8601.parse_date(val, default_timezone=None) if val != '' else None
-        elif schema["type"] == "integer":
-            return int(val) if val != '' else None
-        else:
-            return val
+        return cast_value(csv_val, schema)
+        # val = csv_val.decode('utf8')
+        # if schema["type"] == "datetime":
+        #     return iso8601.parse_date(val, default_timezone=None) if val != '' else None
+        # elif schema["type"] == "integer":
+        #     return int(val) if val != '' else None
+        # else:
+        #     return val
 
     def _data_generator(self, **make_kwargs):
         # if you want to use stream generation - you should return a generator here

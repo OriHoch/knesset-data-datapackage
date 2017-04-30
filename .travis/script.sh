@@ -147,8 +147,12 @@ if run_tests; then
             if [ "${TRAVIS_EVENT_TYPE}" != "cron" ] && [ "${TRAVIS_TAG}" != "" ]; then
                 # when publishing a release - make a larger datapackage as well
                 export DATAPACKAGE_LAST_DAYS=120
+                export DATAPACKAGE_FILENAME="datapackage_last_${DATAPACKAGE_LAST_DAYS}_days_`date "+%Y-%m-%d"`.zip"
+                export DATAPACKAGE_URL="https://s3.amazonaws.com/${KNESSET_DATA_BUCKET}/${DATAPACKAGE_FILENAME}"
                 rm -rf data
-                make_datapackage
+                if ! make_datapackage || ! upload_datapackage "data/datapackage.zip" "${KNESSET_DATA_BUCKET}/${DATAPACKAGE_FILENAME}"; then
+                    exit_error
+                fi
             fi
         elif [ $? == 1 ]; then
             exit_error

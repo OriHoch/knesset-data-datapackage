@@ -18,7 +18,7 @@ class UncastValueTestCase(TestCase):
             self.assertEqual(recasted_value, casted_value)
 
     def test(self):
-        for args in (("date", date(2014, 3, 2), "2014-03-02"),
+        for args in (("date", date(2014, 3, 2), "2014-03-02Z"),
                      ({"type": "datetime", "format": "fmt:%d/%m/%Y %H:%M"}, datetime(2016, 1, 11, 5, 4), "11/01/2016 05:04"),
                      ("integer", None, ""),
                      ("string", None, ""),):
